@@ -3,19 +3,11 @@
 set_time_limit(0);
 ini_set('default_socket_timeout', 300);
 session_start();
-
-/*--------------- Instagram API Keys ---------------*/
-/*----------- To be changed accordingly ------------*/
-
 define("clientID", '2117435213f14f5c8ac916835100bb29');
 define("clientSecret", '531ae82aa2da4ba4b8e2d4651c86c7bd');
 define("redirectURI", 'https://github.com/hizamkamis');
 define("imageDirectory", 'pics/'); 
 
-/*--------------------------------------------------*/
-
-
-//Connect direct to Instagram
 function connectToInstagram($url){
 	$ch = curl_init();						
 	
@@ -31,8 +23,6 @@ function connectToInstagram($url){
 	return $result;							
 }
 
-
-//Get Instagram userID
 function getUserID($userName){
 	$url = 'https://api.instagram.com/v1/users/search?q='. $userName .'&client_id='. clientID;
 	$instagramInfo = connectToInstagram($url);
@@ -41,8 +31,6 @@ function getUserID($userName){
 	return $results['data'][0]['id'];				
 }
 
-
-//Save picture
 function savePicture($image_url){
 	echo $image_url . '<br />';
 	$filename = basename($image_url);
@@ -52,8 +40,6 @@ function savePicture($image_url){
 	file_put_contents($destination, file_get_contents($image_url));
 }
 
-
-//Print out the images
 function printImages($userID){
 	$url = 'https://api.instagram.com/v1/users/'. $userID .'/media/recent?client_id='. clientID .'&count=5';
 	$instagramInfo = connectToInstagram($url);
@@ -67,8 +53,6 @@ function printImages($userID){
 	}
 }
 
-
-//Get user code and save info to session variables
 if($_GET['code']){
 	$code = $_GET['code'];
 	$url = "https://api.instagram.com/oauth/access_token";
